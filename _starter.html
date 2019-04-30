@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Circular motion</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body, html{
+        overflow-y: hidden;
+    }
+    #myCanvas{
+    }
+</style>
+<body>
+    <canvas id="myCanvas"></canvas>
+</body>
+<script>
+
+    // general setup
+    const canvas = document.querySelector('canvas');
+    const c = canvas.getContext('2d');
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
+
+    addEventListener('resize', () => {
+        canvas.width = innerWidth;
+        canvas.height = innerHeight;
+
+        init()
+    });
+
+
+
+
+
+
+    //Utility functions
+    function randomBetween(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) + min)
+    }
+
+    function randomColor(colors) {
+        return colors[Math.floor(Math.random() * colors.length)]
+    }
+
+    function distance(x1, y1, x2, y2) {
+        const xDist = x2 - x1;
+        const yDist = y2 - y1;
+
+        return Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2))
+    }
+
+
+
+
+
+    // mouse movement
+    const mouse = {
+        x: innerWidth / 2,
+        y: innerHeight / 2
+    };
+    addEventListener('mousemove', event => {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY
+    });
+
+
+
+
+
+
+    // colors array
+    const colors = [
+        '#1e56c5',
+        '#7ECEFD',
+        '#fcb042',
+        '#ff2e2a'
+    ];
+
+
+
+
+
+
+    // Objects
+    function Particle(x, y, radius, color, velocity) {
+        this.x = x;
+        this.y = y;
+        this.radius = radius;
+        this.color = color;
+        this.velocity = velocity;
+
+
+        this.draw = function() {
+            //Draw circle
+            c.fillStyle = this.color;
+            // c.lineWidth = 5;
+            c.beginPath();
+            c.arc(this.x, this.y, this.radius, 0, (Math.PI*2), false);
+            c.fill();
+        };
+
+
+        this.update = function() {
+            this.draw()
+        };
+    }
+
+
+
+
+
+
+
+
+
+
+    // Implementation
+    var particlesArray = [];
+    var numberOfParticles = 10;
+
+    function init() {
+        particlesArray = [];
+        var x = mouse.x;
+        var y = mouse.y;
+
+        for (var i = 0; i < numberOfParticles; i++) {
+            var color = randomColor(colors);
+            var radius = 3;
+            var velocity = .5;
+            particlesArray.push( new Particle(x, y, radius, color, velocity))
+        }
+    }
+
+
+
+
+
+
+    // Animation Loop
+    function animate() {
+        requestAnimationFrame(animate);
+        c.fillStyle = 'rgba(255,255,255,.2)';
+        c.fillRect(0, 0, canvas.width, canvas.height);
+
+        // c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y)
+
+        particlesArray.forEach(particle => {
+            particle.update()
+        })
+    }
+
+    init();
+    animate();
+
+
+
+</script>
+</html>

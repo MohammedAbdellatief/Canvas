@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bouncy circle</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        box-sizing: border-box;
+    }
+    body, html{
+        overflow-y: hidden;
+    }
+    #myCanvas{
+    }
+</style>
+<body>
+    <canvas id="myCanvas"></canvas>
+</body>
+<script>
+
+    var canvas = document.querySelector('#myCanvas');
+    var wWidth = window.innerWidth;
+    var wHeight = window.innerHeight;
+    canvas.width = wWidth;
+    canvas.height= wHeight;
+    var c = canvas.getContext('2d');
+
+
+
+    var x = wWidth/2;
+    var y = wHeight/2;
+    var radius = 50;
+    var dx = (Math.random()-.5) * 20;
+    var dy = (Math.random()-.5) * 20;
+
+    function animate() {
+        requestAnimationFrame(animate);
+
+        //Draw circle
+        c.clearRect(0,0,wWidth,wHeight);
+        c.beginPath();
+        c.arc(x, y, radius, 0, (Math.PI*2), false);
+        c.strokeStyle = "green";
+        c.stroke();
+
+
+
+        x += dx;
+        y += dy;
+        
+        
+        if (x+radius > wWidth || x-radius < 0){
+            dx = -dx;
+        }
+
+        if (y+radius > wHeight || y-radius < 0){
+            dy = -dy;
+        }
+
+
+    }
+
+    animate();
+
+
+</script>
+</html>
